@@ -19,12 +19,12 @@ class ProductItem extends StatelessWidget {
     final wishlist = Provider.of<WishlistProvider>(context);
 
     return Card(
-      elevation: 1, // Slightly reduced elevation for a flatter, modern look
+      elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8), // Consistent smaller radius
+        borderRadius: BorderRadius.circular(8), // Slightly less rounded for more angular feel
       ),
-      clipBehavior: Clip.antiAlias, // Ensures content respects card's rounded corners
-      margin: const EdgeInsets.all(0), // Removed default margin to give full control to GridView
+      clipBehavior: Clip.antiAlias,
+      margin: const EdgeInsets.all(4), // Keep small margin for grid spacing
       child: InkWell(
         onTap: () {
           // TODO: Navigate to Product Detail Screen
@@ -33,40 +33,45 @@ class ProductItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // Image section with favorite icon
+            // Image section with favorite icon - takes less relative height
             Expanded(
+              flex: 3, // Image now takes 3 parts of available flex space (compared to total 4 for content)
               child: Stack(
                 children: [
-                  FadeInImage(
-                    placeholder: const AssetImage('assets/placeholder.png'),
-                    image: NetworkImage(product.imageUrl),
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    imageErrorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: Colors.grey[200],
-                        alignment: Alignment.center,
-                        child: Icon(Icons.image_not_supported, color: Colors.grey[400], size: 40), // Smaller icon for 3x3 grid
-                      );
-                    },
+                  Positioned.fill(
+                    child: FadeInImage(
+                      placeholder: const AssetImage('assets/placeholder.png'),
+                      image: NetworkImage(product.imageUrl),
+                      fit: BoxFit.cover,
+                      imageErrorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.grey[200],
+                          alignment: Alignment.center,
+                          child: Icon(Icons.image_not_supported, color: Colors.grey[400], size: 25), // Even smaller icon
+                        );
+                      },
+                    ),
                   ),
                   Positioned(
-                    top: 5,
-                    right: 5,
+                    top: 4, // Reduced padding
+                    right: 4, // Reduced padding
                     child: Consumer<WishlistProvider>(
                       builder: (ctx, wishlist, child) => IconButton(
                         icon: Icon(
                           wishlist.isProductFavorite(product.id) ? Icons.favorite : Icons.favorite_border,
-                          color: wishlist.isProductFavorite(product.id) ? Colors.red : Colors.white, // White icon for better contrast
-                          size: 20, // Smaller icon size for 3x3 grid
+                          color: wishlist.isProductFavorite(product.id) ? Colors.redAccent : Colors.white,
+                          size: 16, // Very small icon size
                         ),
                         onPressed: () {
                           wishlist.toggleFavoriteStatus(product);
                         },
                         style: IconButton.styleFrom(
-                          backgroundColor: Colors.black.withOpacity(0.3), // Slightly transparent background
-                          padding: EdgeInsets.zero,
-                          minimumSize: const Size(32, 32), // Smaller button touch target
+                          backgroundColor: Colors.black.withOpacity(0.4),
+                          padding: EdgeInsets.all(3), // Minimized padding
+                          minimumSize: const Size(24, 24), // Minimized button size
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15), // Circular button
+                          ),
                         ),
                       ),
                     ),
@@ -74,27 +79,27 @@ class ProductItem extends StatelessWidget {
                 ],
               ),
             ),
-            // Product details section
+            // Product details section - very compact
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0), // Reduced padding
+              padding: const EdgeInsets.fromLTRB(6.0, 3.0, 6.0, 0), // Reduced vertical padding further
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     product.name,
                     style: const TextStyle(
-                      fontSize: 12, // Smaller font size for 3x3 grid
+                      fontSize: 10, // Even smaller font for name
                       fontWeight: FontWeight.w500,
                       color: Colors.black87,
                     ),
-                    maxLines: 2, // Allow up to two lines for the name
+                    maxLines: 1, // Crucially, limit to 1 line to save vertical space
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 2), // Very compact spacing
+                  // const SizedBox(height: 1), // Minimal spacing, consider removing if too tight
                   Text(
                     '\$${product.price.toStringAsFixed(2)}',
                     style: TextStyle(
-                      fontSize: 14, // Slightly smaller font size for price
+                      fontSize: 12, // Smaller font for price
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).primaryColor,
                     ),
@@ -102,12 +107,11 @@ class ProductItem extends StatelessWidget {
                 ],
               ),
             ),
-            const Spacer(), // Pushes the add-to-cart button to the bottom
-            // Add to cart button at the bottom
+            // Add to cart button at the bottom - takes remaining flex space
             Align(
               alignment: Alignment.bottomRight,
               child: IconButton(
-                icon: Icon(Icons.add_shopping_cart, size: 20, color: Theme.of(context).colorScheme.secondary), // Smaller icon
+                icon: Icon(Icons.add_shopping_cart, size: 18, color: Theme.of(context).colorScheme.secondary), // Smaller icon
                 onPressed: () {
                   cart.addCartItem(product);
                   ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -127,8 +131,8 @@ class ProductItem extends StatelessWidget {
                     ),
                   );
                 },
-                padding: const EdgeInsets.all(4), // Compact padding for icon button
-                splashRadius: 20, // Smaller splash radius
+                padding: const EdgeInsets.all(4), // Adjusted padding
+                splashRadius: 18, // Smaller splash radius
               ),
             ),
           ],

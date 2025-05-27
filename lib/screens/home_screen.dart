@@ -167,15 +167,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               )
             : GridView.builder(
-                shrinkWrap: true, // Crucial for GridView inside ListView
-                physics: const NeverScrollableScrollPhysics(), // Prevents GridView from having its own scroll
-                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0), // Compact grid padding
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
                 itemCount: filteredProducts.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4, // CHANGED: Now 3 columns
-                  childAspectRatio: 0.45, // ADJUSTED: Significantly smaller for 3 columns (e.g., 0.45 to 0.5)
-                  crossAxisSpacing: 8, // Compact spacing between columns
-                  mainAxisSpacing: 8, // Compact spacing between rows
+                  crossAxisCount: 3,
+                  childAspectRatio: 0.7, // CHANGED: Even smaller ratio for more vertical space
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
                 ),
                 itemBuilder: (ctx, i) => ProductItem(
                   product: filteredProducts[i],

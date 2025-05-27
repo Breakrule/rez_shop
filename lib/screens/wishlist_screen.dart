@@ -23,13 +23,13 @@ class WishlistScreen extends StatelessWidget {
     }
 
     return GridView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0), // Compact grid padding
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
       itemCount: wishlistProducts.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3, // CHANGED: Now 3 columns
-        childAspectRatio: 0.45, // ADJUSTED: Consistent with Home screen aspect ratio
-        crossAxisSpacing: 8, // Compact spacing
-        mainAxisSpacing: 8, // Compact spacing
+        crossAxisCount: 3,
+        childAspectRatio: 0.6, // CHANGED: Even smaller ratio for more vertical space
+        crossAxisSpacing: 4,
+        mainAxisSpacing: 8,
       ),
       itemBuilder: (ctx, i) => ProductItem(
         product: wishlistProducts[i],

@@ -22,7 +22,6 @@ class SmallProductCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 5.0), // Smaller horizontal margin
       child: InkWell(
         onTap: () {
-          // TODO: Navigate to Product Detail Screen for small card
           print('Tapped on small card ${product.name}');
         },
         child: SizedBox( // Constrain size for horizontal list

@@ -89,7 +89,6 @@ class BigProductCard extends StatelessWidget {
                   // Shop Now Button
                   ElevatedButton.icon(
                     onPressed: () {
-                      // TODO: Implement "Shop Now" action
                       print('Shop Now for ${product.name}');
                     },
                     icon: const Icon(Icons.shopping_bag_outlined),
