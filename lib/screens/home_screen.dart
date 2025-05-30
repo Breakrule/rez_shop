@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 
-import '../models/product.dart';
 import '../providers/product_provider.dart';
 import '../widgets/product_item.dart';
 import '../widgets/big_product_card.dart';
@@ -160,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Center(
                   child: Text(
-                    _searchQuery.isEmpty ? 'No products available.' : 'No products found matching "${_searchQuery}".',
+                    _searchQuery.isEmpty ? 'No products available.' : 'No products found matching "$_searchQuery".',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey),
                     textAlign: TextAlign.center,
                   ),
