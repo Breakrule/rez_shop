@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/product.dart';
 import '../providers/cart_provider.dart';
 import '../providers/wishlist_provider.dart';
+import '../screens/product_detail_screen.dart'; // Import the product detail screen
 
 class ProductItem extends StatelessWidget {
   final Product product;
@@ -21,21 +22,23 @@ class ProductItem extends StatelessWidget {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8), // Slightly less rounded for more angular feel
+        borderRadius: BorderRadius.circular(8),
       ),
       clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.all(4), // Keep small margin for grid spacing
+      margin: const EdgeInsets.all(4),
       child: InkWell(
         onTap: () {
-          // TODO: Navigate to Product Detail Screen
-          print('Tapped on ${product.name}');
+          // Navigate to Product Detail Screen when tapped
+          Navigator.of(context).pushNamed(
+            ProductDetailScreen.routeName,
+            arguments: product.id, // Pass the product ID as an argument
+          );
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // Image section with favorite icon - takes less relative height
             Expanded(
-              flex: 3, // Image now takes 3 parts of available flex space (compared to total 4 for content)
+              flex: 3,
               child: Stack(
                 children: [
                   Positioned.fill(
@@ -47,30 +50,30 @@ class ProductItem extends StatelessWidget {
                         return Container(
                           color: Colors.grey[200],
                           alignment: Alignment.center,
-                          child: Icon(Icons.image_not_supported, color: Colors.grey[400], size: 25), // Even smaller icon
+                          child: Icon(Icons.image_not_supported, color: Colors.grey[400], size: 25),
                         );
                       },
                     ),
                   ),
                   Positioned(
-                    top: 4, // Reduced padding
-                    right: 4, // Reduced padding
+                    top: 4,
+                    right: 4,
                     child: Consumer<WishlistProvider>(
                       builder: (ctx, wishlist, child) => IconButton(
                         icon: Icon(
                           wishlist.isProductFavorite(product.id) ? Icons.favorite : Icons.favorite_border,
                           color: wishlist.isProductFavorite(product.id) ? Colors.redAccent : Colors.white,
-                          size: 16, // Very small icon size
+                          size: 16,
                         ),
                         onPressed: () {
                           wishlist.toggleFavoriteStatus(product);
                         },
                         style: IconButton.styleFrom(
                           backgroundColor: Colors.black.withOpacity(0.4),
-                          padding: EdgeInsets.all(3), // Minimized padding
-                          minimumSize: const Size(24, 24), // Minimized button size
+                          padding: EdgeInsets.all(3),
+                          minimumSize: const Size(24, 24),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15), // Circular button
+                            borderRadius: BorderRadius.circular(15),
                           ),
                         ),
                       ),
@@ -79,27 +82,25 @@ class ProductItem extends StatelessWidget {
                 ],
               ),
             ),
-            // Product details section - very compact
             Padding(
-              padding: const EdgeInsets.fromLTRB(6.0, 3.0, 6.0, 0), // Reduced vertical padding further
+              padding: const EdgeInsets.fromLTRB(6.0, 3.0, 6.0, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     product.name,
                     style: const TextStyle(
-                      fontSize: 10, // Even smaller font for name
+                      fontSize: 10,
                       fontWeight: FontWeight.w500,
                       color: Colors.black87,
                     ),
-                    maxLines: 1, // Crucially, limit to 1 line to save vertical space
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  // const SizedBox(height: 1), // Minimal spacing, consider removing if too tight
                   Text(
                     '\$${product.price.toStringAsFixed(2)}',
                     style: TextStyle(
-                      fontSize: 12, // Smaller font for price
+                      fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).primaryColor,
                     ),
@@ -107,11 +108,10 @@ class ProductItem extends StatelessWidget {
                 ],
               ),
             ),
-            // Add to cart button at the bottom - takes remaining flex space
             Align(
               alignment: Alignment.bottomRight,
               child: IconButton(
-                icon: Icon(Icons.add_shopping_cart, size: 18, color: Theme.of(context).colorScheme.secondary), // Smaller icon
+                icon: Icon(Icons.add_shopping_cart, size: 18, color: Theme.of(context).colorScheme.secondary),
                 onPressed: () {
                   cart.addCartItem(product);
                   ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -131,8 +131,8 @@ class ProductItem extends StatelessWidget {
                     ),
                   );
                 },
-                padding: const EdgeInsets.all(4), // Adjusted padding
-                splashRadius: 18, // Smaller splash radius
+                padding: const EdgeInsets.all(4),
+                splashRadius: 18,
               ),
             ),
           ],

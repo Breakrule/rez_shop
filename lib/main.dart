@@ -7,6 +7,7 @@ import 'package:rez_shop/providers/wishlist_provider.dart';
 
 import 'package:rez_shop/screens/home_screen.dart';
 import 'package:rez_shop/screens/cart_screen.dart';
+import 'package:rez_shop/screens/product_detail_screen.dart';
 import 'package:rez_shop/screens/wishlist_screen.dart';
 
 
